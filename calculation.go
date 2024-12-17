@@ -167,7 +167,9 @@ func mult_div(expression string) (string, error){
 		} else if expression[i] == '/' {
 			first, err1 := strconv.ParseFloat(string(expression[i-1]), 64)
 			second, err2 := strconv.ParseFloat(string(expression[i+1]), 64)
+			fmt.Println("ioplkj")
 			if second == "0"{
+				fmt.Println("dgsgsdgsd")
 				return "", ErrDivisionByZero
 			}
 			if err1 == nil && err2 == nil && second != 0 {
