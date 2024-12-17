@@ -5,6 +5,6 @@ import "errors"
 var (
 	ErrDivisionByZero          = errors.New("division by zero")
 	ErrUnequalNumberOfBrackets = errors.New("unequal number of brackets")
-	ErrTooManyOperationSigns   = errors.New("too many operation signs")
+	ErrInvalidExpression       = errors.New("invalid expression")
 	ErrSomethingWentWrong      = errors.New("something went wrong")
 )
