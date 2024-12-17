@@ -72,6 +72,7 @@ func Calc(expression string) (float64, error) {
 	// досчитываем
 	expression, err = mult_div(expression)
 	if err != nil{
+		fmt.Print("ddd")
 		return 0, ErrDivisionByZero
 	}
 	expression = add_sub(expression)
