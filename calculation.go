@@ -71,7 +71,7 @@ func Calc(expression string) (float64, error) {
 	}
 	// досчитываем
 	expression, err = mult_div(expression)
-	if err != nil{
+	if err != nil {
 		return 0, err
 	}
 	expression = add_sub(expression)
@@ -151,7 +151,7 @@ func calc_brackets(sk []string) []string {
 }
 
 // считаем операции умножения и деления в выражени без скобок
-func mult_div(expression string) (string, error){
+func mult_div(expression string) (string, error) {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println(r)
@@ -167,8 +167,13 @@ func mult_div(expression string) (string, error){
 		} else if expression[i] == '/' {
 			first, err1 := strconv.ParseFloat(string(expression[i-1]), 64)
 			second, err2 := strconv.ParseFloat(string(expression[i+1]), 64)
+			if second == 0 {
+				return "", ErrDivisionByZero
+			}
 			if err1 == nil && err2 == nil && second != 0 {
 				expression = strings.Replace(expression, expression[i-1:i+2], strconv.FormatFloat((first/second), 'f', 2, 64), 1)
+			} else if second == 0 {
+				return "", ErrDivisionByZero
 			}
 		}
 	}
