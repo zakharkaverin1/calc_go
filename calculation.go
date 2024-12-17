@@ -72,7 +72,6 @@ func Calc(expression string) (float64, error) {
 	// досчитываем
 	expression, err = mult_div(expression)
 	if err != nil{
-		fmt.Print("ddd")
 		return 0, ErrDivisionByZero
 	}
 	expression = add_sub(expression)
@@ -168,7 +167,7 @@ func mult_div(expression string) (string, error){
 		} else if expression[i] == '/' {
 			first, err1 := strconv.ParseFloat(string(expression[i-1]), 64)
 			second, err2 := strconv.ParseFloat(string(expression[i+1]), 64)
-			if second == 0{
+			if second == "0"{
 				return "", ErrDivisionByZero
 			}
 			if err1 == nil && err2 == nil && second != 0 {
