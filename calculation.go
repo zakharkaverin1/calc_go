@@ -25,7 +25,7 @@ func Calc(expression string) (float64, error) {
 		}
 	}
 	if counter3 <= counter4 {
-		return 0, ErrTooManyOperationSigns
+		return 0, ErrInvalidExpression
 	}
 	// проверяем, есть ли скобки в выражении. если да, то активируем специальные функции
 	if strings.Contains(expression, "(") {
@@ -72,7 +72,7 @@ func Calc(expression string) (float64, error) {
 	// досчитываем
 	expression, err = mult_div(expression)
 	if err != nil{
-		return 0, ErrDivisionByZero
+		return 0, err
 	}
 	expression = add_sub(expression)
 	ans, err := strconv.ParseFloat(expression, 64)
@@ -167,11 +167,6 @@ func mult_div(expression string) (string, error){
 		} else if expression[i] == '/' {
 			first, err1 := strconv.ParseFloat(string(expression[i-1]), 64)
 			second, err2 := strconv.ParseFloat(string(expression[i+1]), 64)
-			fmt.Println("ioplkj")
-			if second == "0"{
-				fmt.Println("dgsgsdgsd")
-				return "", ErrDivisionByZero
-			}
 			if err1 == nil && err2 == nil && second != 0 {
 				expression = strings.Replace(expression, expression[i-1:i+2], strconv.FormatFloat((first/second), 'f', 2, 64), 1)
 			}
@@ -203,4 +198,15 @@ func add_sub(expression string) string {
 		}
 	}
 	return expression
+}
+
+func main() {
+	fmt.Println(Calc("1+1"))
+	fmt.Println(Calc("(2+2)*2"))
+	fmt.Println(Calc("2+2*2"))
+	fmt.Println(Calc("1/2"))
+	fmt.Println(Calc("1+1*"))
+	fmt.Println(Calc("2+2**2"))
+	fmt.Println(Calc("((2+2-*(2"))
+	fmt.Println(Calc(""))
 }
