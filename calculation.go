@@ -1,10 +1,18 @@
-package calculation
+package main
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
+)
+
+var (
+	ErrDivisionByZero      = errors.New("division by zero")
+	ErrInvalidExpression   = errors.New("invalid expression")
+	ErrSomethingWentWrong  = errors.New("something went wrong")
+	ErrExpressionNotString = errors.New("expression not a string")
 )
 
 func Calc(expression string) (float64, error) {
@@ -171,7 +179,6 @@ func mult_div(expression string) (string, error) {
 		} else if expression[i] == '/' {
 			first, err1 := strconv.ParseFloat(string(expression[i-1]), 64)
 			second, err2 := strconv.ParseFloat(string(expression[i+1]), 64)
-			fmt.Println(second)
 			if second == 0.0 {
 				return "", ErrDivisionByZero
 			}
