@@ -1,10 +1,12 @@
-package calculation
+package main
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
 )
+
 
 func Calc(expression string) (float64, error) {
 	defer func() {
@@ -18,7 +20,7 @@ func Calc(expression string) (float64, error) {
 	counter4 := 0
 	// проверяем, чтобы количество знаков операций скобок не превышало количества чисел. Иначе выводим ошибку
 	for i := 0; i < len(expression); i++ {
-		if expression[i] == '1' || expression[i] == '2' || expression[i] == '3' || expression[i] == '4' || expression[i] == '5' || expression[i] == '6' || expression[i] == '7' || expression[i] == '8' || expression[i] == '9' {
+		if expression[i] == '0' || expression[i] == '1' || expression[i] == '2' || expression[i] == '3' || expression[i] == '4' || expression[i] == '5' || expression[i] == '6' || expression[i] == '7' || expression[i] == '8' || expression[i] == '9' {
 			counter3 += 1
 		} else if expression[i] == '*' || expression[i] == '/' || expression[i] == '-' || expression[i] == '+' {
 			counter4 += 1
@@ -41,7 +43,7 @@ func Calc(expression string) (float64, error) {
 		}
 
 		if counter1 != counter2 {
-			return 0, ErrUnequalNumberOfBrackets
+			return 0, ErrInvalidExpression
 		}
 		posledovatelnost = append(posledovatelnost, find_brackets(expression)...)
 		new := calc_brackets(posledovatelnost)
@@ -167,13 +169,12 @@ func mult_div(expression string) (string, error) {
 		} else if expression[i] == '/' {
 			first, err1 := strconv.ParseFloat(string(expression[i-1]), 64)
 			second, err2 := strconv.ParseFloat(string(expression[i+1]), 64)
-			if second == 0 {
+			fmt.Println(second)
+			if second == 0.0 {
 				return "", ErrDivisionByZero
 			}
 			if err1 == nil && err2 == nil && second != 0 {
 				expression = strings.Replace(expression, expression[i-1:i+2], strconv.FormatFloat((first/second), 'f', 2, 64), 1)
-			} else if second == 0 {
-				return "", ErrDivisionByZero
 			}
 		}
 	}
@@ -205,13 +206,3 @@ func add_sub(expression string) string {
 	return expression
 }
 
-func main() {
-	fmt.Println(Calc("1+1"))
-	fmt.Println(Calc("(2+2)*2"))
-	fmt.Println(Calc("2+2*2"))
-	fmt.Println(Calc("1/2"))
-	fmt.Println(Calc("1+1*"))
-	fmt.Println(Calc("2+2**2"))
-	fmt.Println(Calc("((2+2-*(2"))
-	fmt.Println(Calc(""))
-}
