@@ -1,12 +1,11 @@
 package calculation
 
 import (
-	"errors"
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 )
-
 
 func Calc(expression string) (float64, error) {
 	defer func() {
@@ -14,6 +13,9 @@ func Calc(expression string) (float64, error) {
 			fmt.Println(r)
 		}
 	}()
+	if regexp.MustCompile(`[a-zA-Zа-яА-Я]`).MatchString(expression) {
+		return 0, ErrInvalidExpression
+	}
 	var posledovatelnost []string
 	var err error
 	counter3 := 0
@@ -205,4 +207,3 @@ func add_sub(expression string) string {
 	}
 	return expression
 }
-
