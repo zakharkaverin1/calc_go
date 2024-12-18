@@ -1,7 +1,6 @@
 package calculation
 
 import (
-	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
